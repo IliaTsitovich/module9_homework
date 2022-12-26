@@ -44,19 +44,21 @@ xhr.onerror = function(){
 xhr.send();
 };
 
-function deleteError () {
-        divEr = document.querySelector(".active_error").classList.remove("active_error");
+function deleteError() {
+       const divErrorInput = document.querySelector(".error");
+       divErrorInput.innerHTML = " ";
     }
 
-function error () {
-    let divEr = document.querySelector(".error").classList.add("active_error");
-    divEr.innerHTML = divEr
+function error() {
+    const divEr = document.querySelector(".error");
+    const error = `<div class="error_number"><p>число вне диапазона от 1 до 10</p></div>`
+    divEr.innerHTML = error;
 
-    setTimeout(deleteError,3000);
+    setTimeout(deleteError,2000);
 
 };
 
-let resultRequest = document.querySelectorAll(".result");
+const resultRequest = document.querySelector(".result");
 let btn = document.querySelector(".btn");
 
 function displayResult(apiData) {
@@ -73,7 +75,7 @@ apiData.forEach((item, index, array) => {
 }); 
     console.log(cards)
     resultRequest.innerHTML = cards;
-    debugger;
+    
 }
 
 
