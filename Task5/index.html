@@ -9,10 +9,12 @@
 </head>
 <body>
     <div class="form_input">
-        <p>Введите числa от 100 до 300:</p>
+        <p>Сделайте запрос</p>
         <input class="inp_1 input_area" type="number">
+        <label class="label1">Номер страницы</label>
         <input class="inp_2 input_area" type="number">
-        <input class="btn button-submit"type="submit" value="Отправить">
+        <label class="label2">Лимит</label>
+        <input class="btn button-submit"type="submit" value="Запрос">
      </div>
        <div class="error"></div>
        <div class="result resultRequest j-result">Здесь будет результат запроса</div>
@@ -55,9 +57,10 @@
            divErrorInput.innerHTML = " ";
         }
     
-    function error() {
+    function error(message) {
+        const errorMessage = message;
         const divEr = document.querySelector(".error");
-        const error = `<div class="error_number"><p>Числа вне диапазона от 100 до 300</p></div>`
+        const error = `<div class="error_number"><p> ${errorMessage} вне диапазона от 1 до 10</p></div>`
         divEr.innerHTML = error;
     
         setTimeout(deleteError,2000);
@@ -72,7 +75,11 @@
         console.log("start");
     let value1 = `${document.querySelector('.inp_1').value}`;
     let value2 = `${document.querySelector('.inp_2').value}`;
-    if(value1>300 || value1<100 || value1 === 0 && value2>300 || value2<100 ||  value2 === 0) {
+    if(value1>10 || value1<1) {
+        error ("Номер страницы")
+    } else if (value2>10 || value2<1) {
+
+    } value2>300 || value2<100) {
         error ()
     } else {
         let valueUrl =`https://picsum.photos/${value1}/${value2}`
