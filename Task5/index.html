@@ -44,8 +44,6 @@
 
         xhr.send();
     };
-    
-    
 
     function displayResult(apiData) {
     let cards = "";
@@ -63,28 +61,23 @@
     resultRequest.innerHTML = cards;
     }
 
-
     const showImages = () => {
         const images = localStorage.getItem("localDiv");
         if(images) {
             const imageDivLocalStorage = document.querySelector(".result");
             imageDivLocalStorage.insertAdjacentHTML('afterend',images);
             console.log("После получения запроса, данные LocalStorage - будут удалены через 30 секунд")
+            setTimeout(clearStorage,30000);
         } else {
             console.log("пустой")
         }
     } 
-    showImages();
+
+    document.addEventListener("DOMContentLoaded", showImages)
 
     function clearStorage () {
         localStorage.clear();
-        
     }
-
-    setTimeout(clearStorage,30000);
-    
-    
-    
 
     function deleteError() {
            const divErrorInput = document.querySelector(".error");
