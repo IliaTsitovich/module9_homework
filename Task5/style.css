@@ -20,8 +20,8 @@
 
   .label1 {
     position: absolute;
-    left: 60px;
-    top:120px;
+    left: 50px;
+    top:85px;
     pointer-events: none;
     transform: translateY(0.3rem);
     transition: 150ms cubic-bezier(0.4,0,0.2,1);
@@ -29,24 +29,15 @@
   }
   .label2 {
     position: absolute;
-    left: 60px;
-    top:185px;
+    left: 50px;
+    top:155px;
     pointer-events: none;
     transform: translateY(0.3rem);
     transition: 150ms cubic-bezier(0.4,0,0.2,1);
     font-size: 1.2rem;
   }
 
-  input:focus{
-    outline: none;
-    border: 1.5px solid #2601f8;
-  }
-  input:focus ~ label {
-    transform: translateY(-95%) scale(0.9);
-    background-color: #ccf2ff;
-    padding: 0 0.2em;
-
-  }
+ 
 
   .form_input p {
     text-align:center;
@@ -92,13 +83,15 @@
   }
 
   .card {
-    width: 200px;
-    margin: 20px;
+    width: auto;
+    margin:  0 auto;
   }
  
   .card-image {
-    display: block;
-    
+    display: flex;
+    width: 500px;
+    height: 250px;
+    margin: 0 auto;
   }
 
   .card p {
@@ -118,7 +111,7 @@
     display: block;
     justify-content: center;
     align-items: center;
-    width: 500px;
+    width: auto;
     height: px;
     font-size: 30px;
     

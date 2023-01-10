@@ -11,9 +11,9 @@
     <div class="form_input">
         <p>Сделайте запрос</p>
         <input class="inp_1 input_area" type="number">
-        <label class="label1">Номер страницы</label>
+        <label class="label1">Номер страницы:</label>
         <input class="inp_2 input_area" type="number">
-        <label class="label2">Лимит</label>
+        <label class="label2">Лимит:</label>
         <input class="btn button-submit"type="submit" value="Запрос">
      </div>
        <div class="error"></div>
@@ -21,37 +21,71 @@
 </body>
 <script defer>
 
-    function useRequest(url) {
-    
-        const options = {
-         method: 'GET',
-         mode: 'cors'
-        };
-        fetch(url, options)
-        .then((response) => {
-            console.log("responce",response)
-            let url = response.url
-            console.log(url)
-            return url
-        })
-        .then((url) => {
-            let cards = ""
-            const cardBlock = `<div class="card">
-            <img src="${url}" class="card-image"/>
-             </div>`;
-            console.log(`${url}`)
-            cards = cards + cardBlock;
-            console.log(cards)
-            resultRequest.innerHTML = cards;
+    function useRequest(url,cb) {
+        let xhr = new XMLHttpRequest();
 
-        })
+        xhr.open("GET",url, true);
+
+        xhr.onload = function() {
+            if(xhr.status !=200) {
+        console.log('Статус ответа:' `${xhr.status}`)
+            } else {
+        let result = JSON.parse(xhr.response);
         
-        .catch(() => {
-             console.log('error')
-         });
+        console.log("Результат:", JSON.parse(xhr.response));
+        if(cb) {
+            cb(result);
+         }
+        } 
+    };
+        xhr.onerror = function(){
+        console.log("Ошибка! Статус ответа:", xhr.status);
+        };
+
+        xhr.send();
     };
     
     
+
+    function displayResult(apiData) {
+    let cards = "";
+        apiData.forEach((item, index, array) => {
+        const cardBlock = `
+            <div class="card">
+            <img src="${item.download_url}" class="card-image"/>
+            <p>${item.author}</p>
+            </div>
+            `;
+        cards = cards + cardBlock;
+        localStorage.setItem("localDiv", cards)
+    }); 
+    console.log(cards)
+    resultRequest.innerHTML = cards;
+    }
+
+
+    const showImages = () => {
+        const images = localStorage.getItem("localDiv");
+        if(images) {
+            const imageDivLocalStorage = document.querySelector(".result");
+            imageDivLocalStorage.insertAdjacentHTML('afterend',images);
+            console.log("После получения запроса, данные LocalStorage - будут удалены через 30 секунд")
+        } else {
+            console.log("пустой")
+        }
+    } 
+    showImages();
+
+    function clearStorage () {
+        localStorage.clear();
+        
+    }
+
+    setTimeout(clearStorage,30000);
+    
+    
+    
+
     function deleteError() {
            const divErrorInput = document.querySelector(".error");
            divErrorInput.innerHTML = " ";
@@ -75,18 +109,22 @@
         console.log("start");
     let value1 = `${document.querySelector('.inp_1').value}`;
     let value2 = `${document.querySelector('.inp_2').value}`;
-    if(value1>10 || value1<1) {
+    if(value1>10 || value1<1) { 
+        if(value2>10 || value2<1) {
+        error ("Номер страницы и лимит")
+        }
+     else {
         error ("Номер страницы")
-    } else if (value2>10 || value2<1) {
-
-    } value2>300 || value2<100) {
-        error ()
-    } else {
-        let valueUrl =`https://picsum.photos/${value1}/${value2}`
-        const requestResult = await useRequest(valueUrl);
+        } 
+    }
+    else if(value2>10 || value2<1) {
+        error ("Лимит")
+    }
+    else {
+        let valueUrl =`https://picsum.photos/v2/list?page=${value1}&limit=${value2}`
+        const requestResult = useRequest(valueUrl, displayResult);
         console.log("Значение", valueUrl);
-        console.log("end");
-    }}
-    );
+        console.log("end")}
+    });
     </script>
 </html>
